@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Tasks</h2>
+
+<!-- Add Task Button -->
+<a href="{{ url_for('tasks.add_task') }}" class="btn btn-primary mb-3">Add Task</a>
+
+<!-- Display Tasks -->
+<h3>Active Tasks</h3>
+<ul>
+    {% for task in tasks %}
+        {% if not task.archived %}
+            <li class="{{ 'done' if task.completed else '' }}">
+                <strong>{{ task.title }}</strong> ({{ task.priority }})<br>
+                {% if task.due_date %}
+                    Due: {{ task.due_date.strftime('%Y-%m-%d') }}<br>
+                {% endif %}
+                {{ task.description }}<br>
+                Status: {{ '✅ Completed' if task.completed else '❌ Incomplete' }}<br>
+
+                {% if not task.completed %}
+                    <a href="{{ url_for('tasks.complete_task', task_id=task.id) }}" class="btn btn-success btn-sm">✔ Complete</a>
+                {% endif %}
+                {% if not task.completed and not task.archived %}
+                    <a href="{{ url_for('tasks.archive_task', task_id=task.id) }}" class="btn btn-info btn-sm">📦 Archive</a>
+                {% endif %}
+                <a href="{{ url_for('tasks.delete_task', task_id=task.id) }}" class="btn btn-danger btn-sm">🗑 Delete</a>
+                <a href="{{ url_for('tasks.edit_task', task_id=task.id) }}" class="btn btn-sm btn-warning mt-2">Edit</a>
+            </li>
+        {% endif %}
+    {% else %}
+        <p>No active tasks added yet.</p>
+    {% endfor %}
+</ul>
+
+<h3>Archived Tasks</h3>
+<ul>
+    {% for task in tasks %}
+        {% if task.archived %}
+            <li class="{{ 'done' if task.completed else '' }}">
+                <strong>{{ task.title }}</strong> ({{ task.priority }})<br>
+                {% if task.due_date %}
+                    Due: {{ task.due_date.strftime('%Y-%m-%d') }}<br>
+                {% endif %}
+                {{ task.description }}<br>
+                Status: {{ '✅ Completed' if task.completed else '❌ Incomplete' }}<br>
+                <span class="text-muted">(Archived)</span>
+            </li>
+        {% endif %}
+    {% else %}
+        <p>No archived tasks found.</p>
+    {% endfor %}
+</ul>
+
+{% endblock %}
+

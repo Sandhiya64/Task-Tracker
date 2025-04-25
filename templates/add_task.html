@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Add New Task</h2>
+    <form method="POST">
+        <div class="mb-3">
+            <label class="form-label">Title</label>
+            <input class="form-control" type="text" name="title" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea class="form-control" name="description"></textarea>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Due Date</label>
+            <input class="form-control" type="date" name="due_date">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Priority</label>
+            <select class="form-select" name="priority">
+                <option value="">None</option>
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+            </select>
+        </div>
+        <button class="btn btn-primary" type="submit">Add Task</button>
+        <a class="btn btn-secondary" href="{{ url_for('tasks.index') }}">Cancel</a>
+    </form>
+</div>
+{% endblock %}
