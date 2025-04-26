@@ -25,7 +25,11 @@
                 {% if not task.completed and not task.archived %}
                     <a href="{{ url_for('tasks.archive_task', task_id=task.id) }}" class="btn btn-info btn-sm">📦 Archive</a>
                 {% endif %}
-                <a href="{{ url_for('tasks.delete_task', task_id=task.id) }}" class="btn btn-danger btn-sm">🗑 Delete</a>
+                <a href="{{ url_for('tasks.delete_task', task_id=task.id) }}"
+   class="btn btn-danger btn-sm"
+   onclick="return confirm('Are you sure you want to permanently delete this task?')">
+   🗑 Delete
+</a>
                 <a href="{{ url_for('tasks.edit_task', task_id=task.id) }}" class="btn btn-sm btn-warning mt-2">Edit</a>
             </li>
         {% endif %}
@@ -45,7 +49,14 @@
                 {% endif %}
                 {{ task.description }}<br>
                 Status: {{ '✅ Completed' if task.completed else '❌ Incomplete' }}<br>
-                <span class="text-muted">(Archived)</span>
+                <span class="text-muted">(Archived)</span><br>
+
+                <!-- ADD Delete Button Here -->
+                <a href="{{ url_for('tasks.delete_task', task_id=task.id) }}"
+   class="btn btn-danger btn-sm"
+   onclick="return confirm('Are you sure you want to permanently delete this task?')">
+   🗑 Delete
+</a>
             </li>
         {% endif %}
     {% else %}
